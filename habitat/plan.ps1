@@ -11,11 +11,11 @@ $pkg_build_deps=@("core/dotnet-core-sdk")
 
 $pkg_exports=@{
     "port"="port"
-}
+# }
 
-# $pkg_binds=@{
-#   "database"="username password port"
-}
+# # $pkg_binds=@{
+# #   "database"="username password port"
+# }
 
 function Invoke-SetupEnvironment {
   Set-RuntimeEnv "HAB_CONFIG_PATH" $pkg_svc_config_path
