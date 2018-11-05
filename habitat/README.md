@@ -1,6 +1,6 @@
 # nopCommerce
 
-Brief description of nopCommerce
+Habitat Plan for nop-commerce
 
 ## Maintainers
 
