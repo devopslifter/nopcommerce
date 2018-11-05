@@ -11,15 +11,16 @@ $pkg_build_deps=@("core/dotnet-core-sdk")
 
 $pkg_exports=@{
     "port"="port"
-# }
+}
 
-# # $pkg_binds=@{
-# #   "database"="username password port"
+# $pkg_binds=@{
+#   "database"="username password port"
 # }
 
 function Invoke-SetupEnvironment {
   Set-RuntimeEnv "HAB_CONFIG_PATH" $pkg_svc_config_path
 }
+
 function Invoke-Build{
   cp $PLAN_CONTEXT/../* $HAB_CACHE_SRC_PATH/$pkg_dirname -recurse -force
   & "$(Get-HabPackagePath dotnet-core-sdk)\bin\dotnet.exe" restore $HAB_CACHE_SRC_PATH/$pkg_dirname/src/NopCommerce.sln
