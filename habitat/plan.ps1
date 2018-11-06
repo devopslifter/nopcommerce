@@ -6,6 +6,8 @@ $pkg_license=@("Apache-2.0")
 $pkg_upsteam_url="https://github.com/devopslifter/nopCommerce"
 $pkg_description="NOP Commerce ASP.net app"
 
+$pkg_svc_run="cd $pkg_svc_var_path;dotnet ${pkg_name}.dll"
+
 $pkg_deps=@("core/dotnet-core")
 $pkg_build_deps=@("core/dotnet-core-sdk")
 
