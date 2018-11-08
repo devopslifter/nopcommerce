@@ -1,19 +1,23 @@
 $pkg_name="nop-commerce"
 $pkg_origin="devopslifter"
 $pkg_version="0.1.0"
-$pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
+$pkg_maintainer="Tom Finch tfinch@chef.io"
 $pkg_license=@("Apache-2.0")
 $pkg_upsteam_url="https://github.com/devopslifter/nopCommerce"
-$pkg_description="NOP Commerce ASP.net app"
+$pkg_description="NOP Commerce ASP.net core app"
 
+# Where the running service variable data is located - simplified run, no need for hook
 $pkg_svc_run="cd $pkg_svc_var_path;dotnet nop.web.dll"
 
 $pkg_deps=@("core/dotnet-core")
 $pkg_build_deps=@("core/dotnet-core-sdk")
 
+
 $pkg_exports=@{
     "port"="port"
 }
+
+#TODO
 
 # $pkg_binds=@{
 #   "database"="username password port"
@@ -33,5 +37,5 @@ function Invoke-Build{
 }
 
 function Invoke-Install {
-  & "$(Get-HabPackagePath dotnet-core-sdk)\bin\dotnet.exe" publish $HAB_CACHE_SRC_PATH/$pkg_dirname/src/NopCommerce.sln --output "$pkg_prefix/www"
+  & "$(Get-HabPackagePath dotnet-core-sdk)\bin\dotnet.exe" publish $HAB_CACHE_SRC_PATH/$pkg_dirname/src/presentation/nop.web/nop.web.csproj --output "$pkg_prefix/www"
 }
