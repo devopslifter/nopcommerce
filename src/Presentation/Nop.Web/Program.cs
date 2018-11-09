@@ -10,6 +10,7 @@ namespace Nop.Web
             var host = WebHost.CreateDefaultBuilder(args)
                 .UseKestrel(options => options.AddServerHeader = false)
                 .UseStartup<Startup>()
+                .UseUrls("http://*:8090")
                 .Build();
 
             host.Run();

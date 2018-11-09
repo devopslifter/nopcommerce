@@ -7,7 +7,7 @@ $pkg_upsteam_url="https://github.com/devopslifter/nopCommerce"
 $pkg_description="NOP Commerce ASP.net core app"
 
 # Where the running service variable data is located - simplified run, no need for hook
-$pkg_svc_run="cd $pkg_svc_var_path;dotnet nop.web.dll"
+$pkg_svc_run="cd $pkg_svc_var_path;dotnet nop.web.dll"  
 
 $pkg_deps=@("core/dotnet-core")
 $pkg_build_deps=@("core/dotnet-core-sdk")
