@@ -1,0 +1,5 @@
+{
+    "DataProvider": "sqlserver",
+    "DataConnectionString": "Data Source={{bind.database.first.sys.ip}}\\SQLEXPRESS;Initial Catalog=nop;Integrated Security=True;Persist Security Info=False",
+    "RawDataSettings": {}
+  }
