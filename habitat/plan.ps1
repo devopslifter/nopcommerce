@@ -19,9 +19,9 @@ $pkg_exports=@{
 
 #TODO
 
-# $pkg_binds=@{
-#   "database"="username password port"
-# }
+$pkg_binds=@{
+  "database"="username password port instance"
+}
 
 function Invoke-SetupEnvironment {
   Set-RuntimeEnv "HAB_CONFIG_PATH" $pkg_svc_config_path
