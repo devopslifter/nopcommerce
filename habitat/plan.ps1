@@ -2,7 +2,7 @@ $pkg_name="nop-commerce"
 $pkg_origin="devopslifter"
 $pkg_version="0.1.0"
 $pkg_maintainer="Tom Finch tfinch@chef.io"
-$pkg_license=@("Apache-2.0")
+$pkg_license=@("MIT")
 $pkg_upsteam_url="https://github.com/devopslifter/nopCommerce"
 $pkg_description="NOP Commerce ASP.net core app"
 
