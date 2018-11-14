@@ -1,5 +1,8 @@
 cd {{pkg.svc_path}}
 if(Test-Path var) { Remove-Item var -Recurse -Force }
 New-Item -Name var -ItemType Junction -target "{{pkg.path}}/www"
-cd App_Data 
+cd var/App_Data 
 New-Item -Name datasettings.json -ItemType SymbolicLink -target "{{pkg.svc_config_path}}/datasettings.json" -Force
+New-Item -Name installedPlugins.json -ItemType SymbolicLink -target "{{pkg.svc_config_path}}/installedPlugins.json" -Force
+New-Item -Name nop_create.sql -ItemType SymbolicLink -target "{{pkg.svc_config_path}}/nop_create.sql" -Force
+invoke-sqlcmd -Servername {{bind.database.first.sys.ip}}\hab_sql_server -inputFile "{{pkg.svc_config_path}}/nop_create.sql" | out-File -filepath "{{pkg.svc_config_path}}/DB_out.txt"

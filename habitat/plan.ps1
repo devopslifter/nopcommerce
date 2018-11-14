@@ -19,7 +19,7 @@ $pkg_exports=@{
 
 #TODO
 
-$pkg_binds=@{
+$pkg_binds_optional=@{
   "database"="username password port instance"
 }
 
