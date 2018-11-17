@@ -13,7 +13,7 @@ This is a Habitat service package
 
 ## Usage
 
-This package is used to run the nop-commerce web application, it is recommended to add a post `post_run` hook to your sqlserver package to customise any database changes, create users and add any necessary privileges.
+This package is used to run the nop-commerce web application, it is recommended to add a `post_run` hook to your sqlserver package to customise any database changes, create users and add any necessary privileges.
 
 ## Bindings
 
