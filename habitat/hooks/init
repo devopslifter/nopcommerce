@@ -26,11 +26,7 @@ Invoke-Command -ComputerName localhost -EnableNetworkAccess {
     $server += "{{bind.database.first.cfg.instance}},"
     $server += "{{bind.database.first.cfg.port}}"
     
-    Write-Host "Creating DB Structure..."
+    Write-Host "Creating DB..."
     Invoke-Sqlcmd -ServerInstance $server -Database master -Username sa -Password Pass@word1 -InputFile "{{pkg.svc_var_path}}\App_data\nop_create.sql"
-    Write-Host "running create_required_data.sql..."
-    Invoke-Sqlcmd -ServerInstance $server -Database nop -Username sa -Password Pass@word1 -InputFile "{{pkg.svc_var_path}}\App_data\Install\Fast\create_required_data.sql"
-    Write-Host "running create_sample_data.sql..."
-    Invoke-Sqlcmd -ServerInstance $server -Database nop -Username sa -Password Pass@word1 -InputFile "{{pkg.svc_var_path}}\App_data\Install\Fast\create_sample_data.sql"
     {{/if}}
 }
