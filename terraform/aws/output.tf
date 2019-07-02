@@ -13,3 +13,7 @@ output "loadbalancerpublic_ip" {
 output "appserver_public_ips" {
   value = ["${aws_instance.app_server.*.public_ip}"]
 }
+
+output "database_public_ips" {
+  value = ["${aws_instance.database.*.public_ip}"]
+}

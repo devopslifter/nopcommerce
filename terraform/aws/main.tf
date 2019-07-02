@@ -10,7 +10,7 @@ resource "random_id" "instance_id" {
 ////////////////////////////////
 // Instance Data
 
-// Instance Data for Loadbalancer
+// Instance Data for Centos Loadbalancer
 data "aws_ami" "centos" {
   most_recent = true
 
@@ -27,7 +27,7 @@ data "aws_ami" "centos" {
   owners = ["446539779517"]
 }
 
-// Instance Data for App Server 1
+// Instance Data for Windows Server
 
 data "aws_ami" "windows_workstation" {
   most_recent = true
