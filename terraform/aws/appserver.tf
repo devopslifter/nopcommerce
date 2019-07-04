@@ -1,6 +1,6 @@
 resource "aws_instance" "app_server" {
   count                       = "${var.count}"
-  ami                         = "${data.aws_ami.centos.id}"
+  ami                         = "${data.aws_ami.windows_workstation.id}"
   instance_type               = "t2.large"
   key_name                    = "${var.aws_key_pair_name}"
   subnet_id                   = "${aws_subnet.dotnetcore-subnet.id}"
@@ -23,20 +23,27 @@ resource "aws_instance" "app_server" {
     X-TTL         = "${var.tag_ttl}"
   }
 
-  # provisioner "local-exec" {
-  #   command = "sleep 60"
-  # }
+  provisioner "local-exec" {
+    command = "sleep 60"
+  }
 
-  # provisioner "remote-exec" {
-  #   connection = {
-  #     type     = "winrm"
-  #     password = "RL9@T40BTmXh"
-  #     agent    = "false"
-  #     insecure = true
-  #     https    = false
-  #   }
+  provisioner "remote-exec" {
+    connection = {
+      type     = "winrm"
+      password = "RL9@T40BTmXh"
+      agent    = "false"
+      insecure = true
+      https    = false
+    }
 
-  #   inline = [
-  #   ]
-  # }
+    inline = [
+      "Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))",
+      "choco install habitat -y",
+      "New-NetFirewallRule -DisplayName \"Habitat TCP\" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 9631,9638",
+      "New-NetFirewallRule -DisplayName \"Habitat UDP\" -Direction Inbound -Action Allow -Protocol UDP -LocalPort 9638",
+      "New-NetFirewallRule -DisplayName \"NOP Commerce TCP\" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 8090",
+      "hab sup run",
+      "hab svc load core/sqlserver"
+    ]
+  }
 }

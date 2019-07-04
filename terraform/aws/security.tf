@@ -13,7 +13,49 @@ resource "aws_security_group" "dotnetcore" {
     X-TTL         = "${var.tag_ttl}"
   }
 }
+//////////////////////////
+// General Rules
 
+resource "aws_security_group_rule" "ingress_http_all" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.dotnetcore.id}"
+}
+
+resource "aws_security_group_rule" "ingress_https_all" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.dotnetcore.id}"
+}
+
+//////////////////////////
+// Habitat Rules
+
+resource "aws_security_group_rule" "ingress_hab_sup_all" {
+  type              = "ingress"
+  from_port         = 9638
+  to_port           = 9638
+  protocol          = "udp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.dotnetcore.id}"
+}
+
+//////////////////////////
+// Linux Windows Rules
+resource "aws_security_group_rule" "ingress_ssh_all" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.dotnetcore.id}"
+}
 
 //////////////////////////
 // Base Windows Rules
@@ -55,6 +97,16 @@ resource "aws_security_group_rule" "windows_egress_allow_0-65535_all" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.dotnetcore.id}"
 }
+
+# If all else fails -*** NOT SECURE ****
+# resource "aws_security_group_rule" "windows_ingress_allow_0-65535_all" {
+#   type              = "ingress"
+#   from_port         = 0
+#   to_port           = 0
+#   protocol          = "-1"
+#   cidr_blocks       = ["0.0.0.0/0"]
+#   security_group_id = "${aws_security_group.dotnetcore.id}"
+# }
 
 
 

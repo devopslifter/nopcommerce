@@ -33,6 +33,12 @@ variable "aws_key_pair_file" {}
 
 variable "aws_key_pair_name" {}
 
+variable "aws_centos_image_user" {
+  default = "centos"
+}
+
+
+#Changing count may cause supervisor peering issues
 variable "count" {
   default = "1"
 }
