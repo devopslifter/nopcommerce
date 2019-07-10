@@ -16,6 +16,7 @@ resource "aws_security_group" "dotnetcore" {
 //////////////////////////
 // General Rules
 
+# HTTP in
 resource "aws_security_group_rule" "ingress_http_all" {
   type              = "ingress"
   from_port         = 80
@@ -24,6 +25,8 @@ resource "aws_security_group_rule" "ingress_http_all" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.dotnetcore.id}"
 }
+
+# HTTPS in
 
 resource "aws_security_group_rule" "ingress_https_all" {
   type              = "ingress"
@@ -34,14 +37,33 @@ resource "aws_security_group_rule" "ingress_https_all" {
   security_group_id = "${aws_security_group.dotnetcore.id}"
 }
 
+# Outbound All
+
+resource "aws_security_group_rule" "windows_egress_allow_0-65535_all" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.dotnetcore.id}"
+}
 //////////////////////////
 // Habitat Rules
 
-resource "aws_security_group_rule" "ingress_hab_sup_all" {
+resource "aws_security_group_rule" "ingress_hab_sup_all_udp" {
   type              = "ingress"
   from_port         = 9638
   to_port           = 9638
   protocol          = "udp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.dotnetcore.id}"
+}
+
+resource "aws_security_group_rule" "ingress_hab_sup_all_tcp" {
+  type              = "ingress"
+  from_port         = 9631
+  to_port           = 9638
+  protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.dotnetcore.id}"
 }
@@ -79,26 +101,7 @@ resource "aws_security_group_rule" "ingress_winrm_all" {
   security_group_id = "${aws_security_group.dotnetcore.id}"
 }
 
-# resource "aws_security_group_rule" "ingress_allow_9631_tcp" {
-#   type                     = "ingress"
-#   from_port                = 9631
-#   to_port                  = 9631
-#   protocol                 = "tcp"
-#   cidr_blocks              = ["0.0.0.0/0"]
-#   security_group_id        = "${aws_security_group.dotnetcore.id}"
-#   source_security_group_id = "${aws_security_group.dotnetcore.id}"
-# }
-
-resource "aws_security_group_rule" "windows_egress_allow_0-65535_all" {
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = "${aws_security_group.dotnetcore.id}"
-}
-
-# If all else fails -*** NOT SECURE ****
+# If all else fails inbound -*** NOT SECURE ****
 # resource "aws_security_group_rule" "windows_ingress_allow_0-65535_all" {
 #   type              = "ingress"
 #   from_port         = 0

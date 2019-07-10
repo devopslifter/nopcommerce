@@ -15,21 +15,21 @@ resource "random_id" "instance_id" {
 // Instance Data
 
 // Instance Data for Centos Loadbalancer
-data "aws_ami" "centos" {
-  most_recent = true
+# data "aws_ami" "centos" {
+#   most_recent = true
 
-  filter {
-    name   = "name"
-    values = ["chef-highperf-centos7-*"]
-  }
+#   filter {
+#     name   = "name"
+#     values = ["chef-highperf-centos7-*"]
+#   }
 
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
+#   filter {
+#     name   = "virtualization-type"
+#     values = ["hvm"]
+#   }
 
-  owners = ["446539779517"]
-}
+#   owners = ["446539779517"]
+# }
 
 // Instance Data for Windows Server
 
@@ -38,7 +38,7 @@ data "aws_ami" "windows_workstation" {
 
   filter {
     name   = "name"
-    values = ["windows_2016_habitat_workstation_*"]
+    values = ["Windows_Server-2016-English-Full-Containers-*"]
   }
 
   filter {
@@ -46,7 +46,7 @@ data "aws_ami" "windows_workstation" {
     values = ["hvm"]
   }
 
-  owners = ["496323866215"]
+  owners = ["801119661308"]
 }
 
 

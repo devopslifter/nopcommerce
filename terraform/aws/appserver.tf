@@ -1,49 +1,70 @@
-resource "aws_instance" "app_server" {
-  count                       = "${var.count}"
-  ami                         = "${data.aws_ami.windows_workstation.id}"
-  instance_type               = "t2.large"
-  key_name                    = "${var.aws_key_pair_name}"
-  subnet_id                   = "${aws_subnet.dotnetcore-subnet.id}"
-  vpc_security_group_ids      = ["${aws_security_group.dotnetcore.id}"]
-  associate_public_ip_address = true
+# data "template_file" "install_as" {
+#   template = "${file("${path.module}/templates/install_as.ps1")}"
+#     vars = {
+#       peer_ip = "${aws_instance.loadbalancer.private_ip}"
+#   }
+# }
 
-  root_block_device {
-    delete_on_termination = true
-    volume_size           = 100
-    volume_type           = "gp2"
-  }
+# resource "aws_instance" "appserver" {
 
-  tags {
-    Name          = "${var.tag_contact}-${var.tag_customer}-appserver-${count.index}"
-    X-Dept        = "${var.tag_dept}"
-    X-Customer    = "${var.tag_customer}"
-    X-Project     = "${var.tag_project}"
-    X-Application = "${var.tag_application}"
-    X-Contact     = "${var.tag_contact}"
-    X-TTL         = "${var.tag_ttl}"
-  }
+#   connection {
+#     type     = "winrm"
+#     user     = "administrator"
+#     password = "Cod3Can!"
+#   }
 
-  provisioner "local-exec" {
-    command = "sleep 60"
-  }
+#   ami                         = "${data.aws_ami.windows_workstation.id}"
+#   instance_type               = "t2.large"
+#   key_name                    = "${var.aws_key_pair_name}"
+#   subnet_id                   = "${aws_subnet.dotnetcore-subnet.id}"
+#   vpc_security_group_ids      = ["${aws_security_group.dotnetcore.id}"]
+#   associate_public_ip_address = true
 
-  provisioner "remote-exec" {
-    connection = {
-      type     = "winrm"
-      password = "RL9@T40BTmXh"
-      agent    = "false"
-      insecure = true
-      https    = false
-    }
+#   user_data = <<EOF
+#     <powershell>
+#     net user chef Cod3Can! /add /y
+#     net localgroup administrators chef /add
+#     net user administrator Cod3Can! /y
+#     winrm quickconfig -q
+#     winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="300"}'
+#     winrm set winrm/config '@{MaxTimeoutms="1800000"}'
+#     winrm set winrm/config/service '@{AllowUnencrypted="true"}'
+#     winrm set winrm/config/service/auth '@{Basic="true"}'
+#     netsh advfirewall firewall add rule name=”WinRM 5985" protocol=TCP dir=in localport=5985 action=allow
+#     netsh advfirewall firewall add rule name=”WinRM 5986" protocol=TCP dir=in localport=5986 action=allow
+#     netsh advfirewall firewall add rule name=”RDP 3389" protocol=TCP dir=in localport=3389 action=allow
+#     net stop winrm
+#     sc.exe config winrm start=auto
+#     net start winrm
+#     Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+#     choco install chefdk -y
+#     choco install vscode -y
+#     </powershell>
+#   EOF
 
-    inline = [
-      "Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))",
-      "choco install habitat -y",
-      "New-NetFirewallRule -DisplayName \"Habitat TCP\" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 9631,9638",
-      "New-NetFirewallRule -DisplayName \"Habitat UDP\" -Direction Inbound -Action Allow -Protocol UDP -LocalPort 9638",
-      "New-NetFirewallRule -DisplayName \"NOP Commerce TCP\" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 8090",
-      "hab sup run",
-      "hab svc load core/sqlserver"
-    ]
-  }
-}
+#       tags {
+#     Name          = "${var.tag_contact}-${var.tag_customer}-appserver"
+#     X-Dept        = "${var.tag_dept}"
+#     X-Customer    = "${var.tag_customer}"
+#     X-Project     = "${var.tag_project}"
+#     X-Application = "${var.tag_application}"
+#     X-Contact     = "${var.tag_contact}"
+#     X-TTL         = "${var.tag_ttl}"
+#   }
+
+#   provisioner "remote-exec" {
+#     inline = [
+#       "md \\users\\administrator\\.chef",
+#     ]
+#   }
+#   provisioner "file" {
+#     destination = "C:/users/administrator/.chef/scripts/install_as.ps1"
+#     content     = "${data.template_file.install_as.rendered}"
+#   }
+#   provisioner "remote-exec" {
+#     inline = [
+#       "powershell -ExecutionPolicy ByPass -File C:\\users\\administrator\\.chef\\scripts\\install_as.ps1"
+#     ]
+#   }
+# }
+
