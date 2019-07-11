@@ -1,7 +1,7 @@
 
 # nopCommerce
 
-Habitat Plan for nop-commerce
+Habitat Plan for NopCommerce
 
 ## Maintainers
 
@@ -13,7 +13,7 @@ This is a Habitat service package
 
 ## Usage
 
-This package is used to run the nop-commerce web application, it is recommended to add a `post_run` hook to your sqlserver package to customise any database changes, create users and add any necessary privileges.
+This package is used to run the NopCommerce web application, to customise your MS SQL Server instance it is recommended to add a `post_run` hook to your sqlserver package to customise any database changes, create users and add any necessary privileges you require.
 
 ## Bindings
 
@@ -26,17 +26,3 @@ Example bind
 ## Topologies
 
 TODO
-
-## Notes
-
-Learning points:
-
-Publish is for src/presentation/nop.web/nop.web.csproj NOT the solution file
-
-Use $pkg_svc_run for simple run
-
-Use Get-HabPackagePath to point at the correct dotnet bin
-
-Kestrel defaults to port 5000 on ASP.net core (causes issues with getting to the app in a container) Added workaroud in program.cs
-
-SQL Server PS module needs to be loaded from host (hooj nuance)
