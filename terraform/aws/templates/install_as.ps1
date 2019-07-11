@@ -5,4 +5,4 @@
      $oService.Change($null,$null,$null,$null,$null,$null,$username,$password) | Out-Null
      Restart-Service -Name Habitat
      
-    hab run  devopslifter/nop-commerce --bind database:sqlserver.default --peer=${peer_ip}
+     hab svc load devopslifter/nop-commerce --bind database:sqlserver.default

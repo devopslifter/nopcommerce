@@ -6,4 +6,4 @@
      Restart-Service -Name Habitat
                 
      hab pkg install core/sqlserver --ignore-install-hook
-     hab svc load core/sqlserver --peer=10.0.1.83
+     hab svc load core/sqlserver

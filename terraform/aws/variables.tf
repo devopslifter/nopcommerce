@@ -37,16 +37,6 @@ variable "aws_centos_image_user" {
   default = "centos"
 }
 
-variable "winrm_user" {
-  default = "Chef"
-}
-
-variable "winrm_password" {
-  default = "Q@AGeKde691n1n1n1@"
-}
-
-
-#Changing count may cause supervisor peering issues
-variable "count" {
-  default = "1"
+variable "admin_password" {
+  default = "Cod3Can!"
 }

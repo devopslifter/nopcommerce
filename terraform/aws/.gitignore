@@ -5,5 +5,5 @@
 # Module directory
 .terraform/
 
-# # Sensitive Files
-# /variables.tf
+# Sensitive Files
+/terraform.tfvars

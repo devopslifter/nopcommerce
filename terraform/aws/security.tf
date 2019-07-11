@@ -37,17 +37,17 @@ resource "aws_security_group_rule" "ingress_https_all" {
   security_group_id = "${aws_security_group.dotnetcore.id}"
 }
 
-# Outbound All
+# App in
 
-resource "aws_security_group_rule" "windows_egress_allow_0-65535_all" {
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
+resource "aws_security_group_rule" "ingress_nopcommerce_all" {
+  type              = "ingress"
+  from_port         = 8090
+  to_port           = 8090
+  protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.dotnetcore.id}"
 }
-//////////////////////////
+/////////////////////
 // Habitat Rules
 
 resource "aws_security_group_rule" "ingress_hab_sup_all_udp" {
@@ -101,15 +101,23 @@ resource "aws_security_group_rule" "ingress_winrm_all" {
   security_group_id = "${aws_security_group.dotnetcore.id}"
 }
 
-# If all else fails inbound -*** NOT SECURE ****
-# resource "aws_security_group_rule" "windows_ingress_allow_0-65535_all" {
-#   type              = "ingress"
-#   from_port         = 0
-#   to_port           = 0
-#   protocol          = "-1"
-#   cidr_blocks       = ["0.0.0.0/0"]
-#   security_group_id = "${aws_security_group.dotnetcore.id}"
-# }
+# SQLServer - all
+resource "aws_security_group_rule" "ingress_sqlserver_all" {
+  type              = "ingress"
+  from_port         = 8888
+  to_port           = 8888
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.dotnetcore.id}"
+}
 
+# Outbound All
 
-
+resource "aws_security_group_rule" "windows_egress_allow_0-65535_all" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.dotnetcore.id}"
+}

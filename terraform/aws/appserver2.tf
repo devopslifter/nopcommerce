@@ -1,20 +1,4 @@
-data "template_file" "install_db" {
-  template = "${file("${path.module}/templates/install_db.ps1")}"
-}
-
-data "template_file" "bootstrap_hab" {
-  template = "${file("${path.module}/templates/bootstrap_hab.ps1")}"
-  vars = {
-    peer_ip = "${aws_instance.loadbalancer.private_ip}"
-  }
-}
-
-data "template_file" "LsaWrapper" {
-  template = "${file("${path.module}/templates/LsaWrapper.cs")}"
-}
-
-
-resource "aws_instance" "database" {
+resource "aws_instance" "appserver2" {
 
   connection {
     type     = "winrm"
@@ -31,33 +15,33 @@ resource "aws_instance" "database" {
 
   user_data = <<EOF
     <powershell>
+    net user chef Cod3Can! /add /y
+    net localgroup administrators chef /add
     net user administrator Cod3Can! /y
     winrm quickconfig -q
-    winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="3000"}'
+    winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="300"}'
     winrm set winrm/config '@{MaxTimeoutms="1800000"}'
     winrm set winrm/config/service '@{AllowUnencrypted="true"}'
     winrm set winrm/config/service/auth '@{Basic="true"}'
     netsh advfirewall firewall add rule name=”WinRM 5985" protocol=TCP dir=in localport=5985 action=allow
     netsh advfirewall firewall add rule name=”WinRM 5986" protocol=TCP dir=in localport=5986 action=allow
     netsh advfirewall firewall add rule name=”RDP 3389" protocol=TCP dir=in localport=3389 action=allow
-    netsh advfirewall firewall add rule name=”SQLServer 8888" protocol=TCP dir=in localport=8888 action=allow
+    netsh advfirewall firewall add rule name=”App 8090" protocol=TCP dir=in localport=8090 action=allow
     net stop winrm
     sc.exe config winrm start=auto
     net start winrm
-    choco install googlechrome -y
-    choco install vscode -y
     </powershell>
-  EOF
+    EOF
 
-    tags {
-    Name          = "${var.tag_contact}-${var.tag_customer}-database"
+      tags {
+    Name          = "${var.tag_contact}-${var.tag_customer}-appserver2"
     X-Dept        = "${var.tag_dept}"
     X-Customer    = "${var.tag_customer}"
     X-Project     = "${var.tag_project}"
     X-Application = "${var.tag_application}"
     X-Contact     = "${var.tag_contact}"
     X-TTL         = "${var.tag_ttl}"
-  }
+}
 
 provisioner "remote-exec" {
     inline = [
@@ -65,8 +49,8 @@ provisioner "remote-exec" {
     ]
 }
 provisioner "file" {
-    destination = "C:/users/administrator/.chef/scripts/install_db.ps1"
-    content     = "${data.template_file.install_db.rendered}"
+    destination = "C:/users/administrator/.chef/scripts/install_as.ps1"
+    content     = "${data.template_file.install_as.rendered}"
 }
 
 provisioner "file" {
@@ -84,9 +68,12 @@ provisioner "remote-exec" {
       "PowerShell.exe -ExecutionPolicy Bypass -File C:\\users\\administrator\\.chef\\scripts\\bootstrap_hab.ps1",
     ]
 }
+
 provisioner "remote-exec" {
     inline = [
-      "powershell -ExecutionPolicy Bypass -File C:\\users\\administrator\\.chef\\scripts\\install_db.ps1"
+      "powershell -ExecutionPolicy ByPass -File C:\\users\\administrator\\.chef\\scripts\\install_as.ps1"
     ]
 }
 }
+
+
