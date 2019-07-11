@@ -1,4 +1,3 @@
-﻿
 # nopCommerce
 
 **Habitat Plan for NopCommerce**
