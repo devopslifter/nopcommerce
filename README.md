@@ -1,4 +1,9 @@
-﻿nopCommerce
+﻿
+# nopCommerce
+
+Habitat Plan for NopCommerce
+
+nopCommerce
 ===========
 nopCommerce is the best open-source e-commerce shopping cart. nopCommerce is available for free. Today it's the best and most popular ASP.NET ecommerce software. It has been downloaded more than 1.8 million times!
 
@@ -6,39 +11,27 @@ nopCommerce is a fully customizable shopping cart. It's stable and highly usable
 
 ![nopCommerce demo](https://www.nopcommerce.com/images/features/responsive_devices_codeplex.jpg)
 
-nopCommerce can be up-and-running in just a few minutes. Simply download the software, and follow the simple installation instructions. nopCommerce is developed to take full advantage of the latest technologies available. With its pluggable architecture, additional functionality and presentation elements can be dynamically added to the application at runtime.
 
-We have put a lot of effort into ensuring that nopCommerce is optimized for search engines. From search friendly URLs to properly structured content and products, you will find that nopCommerce was built to help your customers locate your content with ease.
+## Maintainers
 
-nopCommerce offers unprecedented flexibility and control. Since it is open-source, nopCommerce’s source code is available free for download.
+Tom Finch tfinch@chef.io
 
+## Type of Package
 
-## nopCommerce resources: ##
+This is a Habitat service package
 
-nopCommerce official site: [https://www.nopcommerce.com](https://www.nopcommerce.com)
+## Usage
 
-nopCommerce demo store: [https://www.nopCommerce.com/demo.aspx](https://www.nopCommerce.com/demo.aspx)
+This package is used to run the NopCommerce web application, to customise your MS SQL Server instance it is recommended to add a `post_run` hook to your sqlserver package to customise any database changes, create users and add any necessary privileges you require.
 
-Feature list: [https://www.nopcommerce.com/featurelist.aspx](https://www.nopcommerce.com/featurelist.aspx)
+## Bindings
 
-Technology & system Requirements: [http://docs.nopcommerce.com/pages/viewpage.action?pageId=10256757](http://docs.nopcommerce.com/pages/viewpage.action?pageId=10256757)
+This package binds to Microsoft SQL Server 2008 or higher and contains all the necesary `.sql` to create a starter database to demo with.
+ 
+Example bind
 
-Documentation: [http://docs.nopcommerce.com/](http://docs.nopcommerce.com/)
+`hab svc load devopslifter/nop-commerce --bind database:sqlserver.default`
 
-Forums: [https://www.nopcommerce.com/boards/](https://www.nopcommerce.com/boards/)
+## Terraform
 
-Gitter.im chat room: [https://gitter.im/nopCommerce-official/Lobby](https://gitter.im/nopCommerce-official/Lobby)
-
-## Store demo: ##
-
-Browse our shopping cart demo store to get a feel for nopCommerce shopping cart. Browse through the store from the customer's perspective and place an order. You won't be billed for or receive any products – the demo store examples are there only to show the extensive functionality of the shopping cart. Get a better feel for it by going through the admin panel and make changes.
-
-
-Front End | Admin area
-----|------
-[![ScreenShot](https://www.nopcommerce.com/images/demo/demo3.png)](https://demo.nopcommerce.com/) | [![ScreenShot](https://www.nopcommerce.com/images/demo/admindemo_500.png)](https://admin-demo.nopcommerce.com/)
-
-
-## Survey for developers and product managers: ##
-
-We want to make sure our users get what they need from the platform. That is why we prepared a short survey to know you better. Your opinion really matters and we hope you can participate to give us food for thought for making nopCommerce even better! [Participate](https://www.surveymonkey.com/r/CDMQYHY)
+Included in the repo is terraform code for launching the application in AWS
