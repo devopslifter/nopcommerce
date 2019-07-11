@@ -1,5 +1,5 @@
 # Reference Architecture  - ASP.NET Core 
-This repo provides reference architecture for deploying MSSQL environments in a high availability configuration (always on) using [Habitat](https://habitat.sh) and [Terraform](https://terraform.io). 
+This repo provides reference architecture for deploying ASP.NET Core applications using [Habitat](https://habitat.sh) and [Terraform](https://terraform.io). 
 
 >THIS REPO IS CURRENTLY UNDER DEVELOPMENT. Contact [Tom Finch](https://github.com/devopslifter) if you have any questions or want to collaborate.
 
