@@ -5,7 +5,15 @@
 #   }
 # }
 
-# resource "aws_instance" "appserver" {
+# # data "template_file" "bootstrap_hab" {
+# #   template = "${file("${path.module}/templates/bootstrap_hab.ps1")}"
+# # }
+
+# # data "template_file" "LsaWrapper" {
+# #   template = "${file("${path.module}/templates/LsaWrapper.cs")}"
+# # }
+
+# resource "aws_instance" "appserver1" {
 
 #   connection {
 #     type     = "winrm"
@@ -36,9 +44,6 @@
 #     net stop winrm
 #     sc.exe config winrm start=auto
 #     net start winrm
-#     Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-#     choco install chefdk -y
-#     choco install vscode -y
 #     </powershell>
 #   EOF
 
@@ -60,6 +65,22 @@
 #   provisioner "file" {
 #     destination = "C:/users/administrator/.chef/scripts/install_as.ps1"
 #     content     = "${data.template_file.install_as.rendered}"
+#   }
+
+#      provisioner "file" {
+#     destination = "C:/users/administrator/.chef/scripts/bootstrap_hab.ps1"
+#     content     = "${data.template_file.bootstrap_hab.rendered}"
+#   }
+
+#    provisioner "file" {
+#     destination = "C:/users/administrator/.chef/scripts/LsaWrapper.cs"
+#     content     = "${data.template_file.LsaWrapper.rendered}"
+
+#        provisioner "remote-exec" {
+#     inline = [
+#       "PowerShell.exe -ExecutionPolicy Bypass -File C:\\users\\administrator\\.chef\\scripts\\bootstrap_hab.ps1",
+#     ]
+#   }
 #   }
 #   provisioner "remote-exec" {
 #     inline = [

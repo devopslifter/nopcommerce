@@ -1,7 +1,9 @@
-      Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-      choco install habitat -y
-      hab license accept
-      New-NetFirewallRule -DisplayName \"Habitat TCP\" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 9631,9638
-      New-NetFirewallRule -DisplayName \"Habitat UDP\" -Direction Inbound -Action Allow -Protocol UDP -LocalPort 9638
-      New-NetFirewallRule -DisplayName \"NOP Commerce TCP\" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 8090
-      hab sup run core/sqlserver
+     Add-Type -TypeDefinition (Get-Content "$PSScriptRoot\LsaWrapper.cs" | Out-String)
+     $lsa_wrapper = New-Object -type LsaWrapper
+     $lsa_wrapper.SetRight($username, "SeServiceLogonRight")
+     $oService = Get-WmiObject -Query "SELECT * FROM Win32_Service WHERE Name = 'habitat'"
+     $oService.Change($null,$null,$null,$null,$null,$null,$username,$password) | Out-Null
+     Restart-Service -Name Habitat
+                
+     hab pkg install core/sqlserver --ignore-install-hook
+     hab svc load core/sqlserver --peer=10.0.1.83

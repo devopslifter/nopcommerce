@@ -5,6 +5,14 @@ data "template_file" "install_db" {
 #   }
 }
 
+data "template_file" "bootstrap_hab" {
+  template = "${file("${path.module}/templates/bootstrap_hab.ps1")}"
+}
+
+data "template_file" "LsaWrapper" {
+  template = "${file("${path.module}/templates/LsaWrapper.cs")}"
+}
+
 
 resource "aws_instance" "database" {
 
@@ -25,7 +33,7 @@ resource "aws_instance" "database" {
     <powershell>
     net user administrator Cod3Can! /y
     winrm quickconfig -q
-    winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="300"}'
+    winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="3000"}'
     winrm set winrm/config '@{MaxTimeoutms="1800000"}'
     winrm set winrm/config/service '@{AllowUnencrypted="true"}'
     winrm set winrm/config/service/auth '@{Basic="true"}'
@@ -58,9 +66,25 @@ resource "aws_instance" "database" {
     destination = "C:/users/administrator/.chef/scripts/install_db.ps1"
     content     = "${data.template_file.install_db.rendered}"
   }
+
+   provisioner "file" {
+    destination = "C:/users/administrator/.chef/scripts/bootstrap_hab.ps1"
+    content     = "${data.template_file.bootstrap_hab.rendered}"
+  }
+
+   provisioner "file" {
+    destination = "C:/users/administrator/.chef/scripts/LsaWrapper.cs"
+    content     = "${data.template_file.LsaWrapper.rendered}"
+  }
+
+   provisioner "remote-exec" {
+    inline = [
+      "PowerShell.exe -ExecutionPolicy Bypass -File C:\\users\\administrator\\.chef\\scripts\\bootstrap_hab.ps1",
+    ]
+  }
   provisioner "remote-exec" {
     inline = [
-      "powershell -ExecutionPolicy Unrestricted -File C:\\users\\administrator\\.chef\\scripts\\install_db.ps1 -Schedule"
+      "powershell -ExecutionPolicy Bypass -File C:\\users\\administrator\\.chef\\scripts\\install_db.ps1"
     ]
   }
 }

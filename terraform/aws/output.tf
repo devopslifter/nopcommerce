@@ -11,7 +11,7 @@ output "subnet_id" {
 # }
 
 # output "appserver_public_ips" {
-#   value = ["${aws_instance.appserver.*.public_ip}"]
+#   value = ["${aws_instance.appserver1.public_ip}"]
 # }
 output "database_public_ips" {
   value = ["${aws_instance.database.public_ip}"]
