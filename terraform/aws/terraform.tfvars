@@ -1,8 +1,0 @@
-"aws_profile" = "default"
-"aws_key_pair_file" = "~/.ssh/tmf-kp.pem"
-"aws_key_pair_name" = "tmf-kp"
-"tag_customer" = "tomf"
-"tag_project" = "dotnetcore"
-"tag_dept" = "SA-EMEA"
-"tag_contact" = "tfinch"
-"tag_ttl" = "8"
