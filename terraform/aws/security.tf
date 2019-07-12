@@ -69,7 +69,7 @@ resource "aws_security_group_rule" "ingress_hab_sup_all_tcp" {
 }
 
 //////////////////////////
-// Linux Windows Rules
+// Linux Rules
 resource "aws_security_group_rule" "ingress_ssh_all" {
   type              = "ingress"
   from_port         = 22
