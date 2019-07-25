@@ -26,18 +26,18 @@ You will need access to a Windows workstation to develop the NopCommerce applica
 
 Clone this repo to a working directory on your Windows development workstation.
 Run `Habitat Setup` and ensure you use your own origin and its corresponing personal access token.
-Enter a Habitat Studio `hab studio enter` and then build the application `build`
-Upload your newly built package to the habitat depo `hab pkg upload <path to your .hart file>` promote this to stable
+Enter a Habitat Studio `hab studio enter` and then build the application `build`.
+Upload your newly built package to the habitat depo `hab pkg upload <path to your .hart file>` promote this to stable.
 
 Once you have the application package available from the Habitat depo under your origin you are ready to demo.
 
 ***Note do not destroy your cloud Windows workstation if you are using one, it will be needed for the demo***
 
-Clone this repo to a working directory on your development workstation (The machine you will run Terraform from)
-cd to `nopcommerce/terraform/aws/`
+Clone this repo to a working directory on your development workstation (The machine you will run Terraform from).
+cd to `nopcommerce/terraform/aws/`.
 Change your variables to reflect your region, keys and Habitat origin.
 Run `terraform init`
-Run `terraform app`
+Run `terraform app`.
 
 Note that it may take upto 15 minutes after `terraform apply` completes before the application can be reached. You can view the habitat supervisor logs on the Windows nodes `Get-Content C:\hab\svc\windows-service\LOGS\Habitat.log -Wait` or Linux node `journalctl -fu hab-sup.service`
 
@@ -48,10 +48,10 @@ On your Windows workstation make a change to the following file in your editor o
 `reference-pattern-aspdotnetcore/src/Presentation/Nop.Web/Themes/DefaultClean/Content/css/styles.css`
 
 Modify `background-color` at line 66 to be any colour you want.
-Update the `plan.ps1` to be version `0.1.1`
-Enter a Habitat Studio `hab studio enter` and then build the application `build`
-Upload your newly built package to the habitat depo `hab pkg upload <path to your .hart file>`
-RDP to either Windows app servers and show the service log by runnung `Get-Content C:\hab\svc\windows-service\LOGS\Habitat.log -Wait`
+Update the `plan.ps1` to be version `0.1.1`.
+Enter a Habitat Studio `hab studio enter` and then build the application `build`.
+Upload your newly built package to the habitat depo `hab pkg upload <path to your .hart file>`.
+RDP to either Windows app servers and show the service log by runnung `Get-Content C:\hab\svc\windows-service\LOGS\Habitat.log -Wait`.
 Promote your new package to stable in the Habitat depo.
 Wait for the new service to be loaded on the Windows app server.
 ***hard refresh*** your website URL (loadbalancer URL) Ctrl and click the Reload button (Windows) or Hold ⇧ Shift and click the Reload button (Mac).
