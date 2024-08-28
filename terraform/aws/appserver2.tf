@@ -3,7 +3,7 @@ resource "aws_instance" "appserver2" {
   connection {
     type     = "winrm"
     user     = "administrator"
-    password = "Cod3Can!"
+    password = "Cod3Cant"
   }
 
   ami                         = "${data.aws_ami.windows_workstation.id}"
